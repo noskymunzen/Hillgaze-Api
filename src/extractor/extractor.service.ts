@@ -2,13 +2,18 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ImageAPIExtractor } from './extractor.interface';
+import { WallhavenExtractor } from './providers/wallhaven/wallhaven.extractor';
 
 @Injectable()
 export class ExtractorService {
   private extractors: ImageAPIExtractor[];
 
   constructor(public readonly httpService: HttpService) {
-    this.extractors = [];
+    this.extractors = [
+      new WallhavenExtractor(this.httpService, {
+        apiKey: process.env.WALLHAVEN_APIKEY,
+      }),
+    ];
   }
 
   @Cron(CronExpression.EVERY_10_SECONDS)
