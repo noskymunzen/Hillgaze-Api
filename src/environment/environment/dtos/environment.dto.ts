@@ -7,4 +7,7 @@ export class EnvironmentDTO {
 
   @IsNotEmpty()
   HOSTNAME: string;
+
+  @IsNotEmpty()
+  WALLHAVEN_APIKEY: string;
 }
