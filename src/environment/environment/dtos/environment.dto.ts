@@ -10,4 +10,7 @@ export class EnvironmentDTO {
 
   @IsNotEmpty()
   WALLHAVEN_APIKEY: string;
+
+  @IsNotEmpty()
+  PEXELS_APIKEY: string;
 }

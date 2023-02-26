@@ -4,5 +4,6 @@ declare namespace NodeJS {
     HOSTNAME: string;
 
     WALLHAVEN_APIKEY: string;
+    PEXELS_APIKEY: string;
   }
 }
