@@ -3,6 +3,9 @@ declare namespace NodeJS {
     PORT: string;
     HOSTNAME: string;
 
+    MONGODB_URI: string;
+    MONGODB_DB: string;
+
     WALLHAVEN_APIKEY: string;
     PEXELS_APIKEY: string;
   }
