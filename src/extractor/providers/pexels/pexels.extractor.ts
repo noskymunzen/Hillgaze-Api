@@ -1,11 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { randomUUID } from 'crypto';
 import {
   ExtractionOptions,
   ImageAPIExtractor,
-  Picture,
   Provider,
 } from 'src/extractor/extractor.interface';
+import Picture from 'src/pictures/models/picture.model';
 import { PexelsClient } from './pexels.client';
 import { PexelsConfig, PexelsImage, PexelsQuery } from './pexels.types';
 
@@ -34,9 +33,8 @@ export class PexelsExtractor
     });
     return images.map((image) => this.convert(image));
   }
-  convert(image: PexelsImage): Picture<unknown> {
+  convert(image: PexelsImage): Picture {
     return {
-      _id: randomUUID(),
       name: image.alt || image.url,
       url: image.src.original,
       tags: ['nature'], // TODO: fix

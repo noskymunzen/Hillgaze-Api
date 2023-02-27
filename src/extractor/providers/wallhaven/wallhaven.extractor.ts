@@ -1,11 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { randomUUID } from 'crypto';
 import {
   ExtractionOptions,
   ImageAPIExtractor,
-  Picture,
   Provider,
 } from 'src/extractor/extractor.interface';
+import Picture from 'src/pictures/models/picture.model';
 import { ImageAPIClient } from '../providers.interfaces';
 import { WallhavenClient } from './wallhaven.client';
 import {
@@ -41,7 +40,6 @@ export class WallhavenExtractor
 
   convert(image: WallhavenImage): Picture<unknown> {
     return {
-      _id: randomUUID(),
       name: image.id,
       url: image.path,
       tags: [image.category],
