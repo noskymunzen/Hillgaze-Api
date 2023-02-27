@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { PictureService } from 'src/pictures/pictures.service';
 import { ImageAPIExtractor } from './extractor.interface';
 import { PexelsExtractor } from './providers/pexels/pexels.extractor';
 import { WallhavenExtractor } from './providers/wallhaven/wallhaven.extractor';
@@ -9,7 +10,10 @@ import { WallhavenExtractor } from './providers/wallhaven/wallhaven.extractor';
 export class ExtractorService {
   private extractors: ImageAPIExtractor[];
 
-  constructor(public readonly httpService: HttpService) {
+  constructor(
+    public readonly httpService: HttpService,
+    private readonly pictureService: PictureService,
+  ) {
     this.extractors = [
       new WallhavenExtractor(this.httpService, {
         apiKey: process.env.WALLHAVEN_APIKEY,
@@ -20,7 +24,7 @@ export class ExtractorService {
     ];
   }
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_11PM)
   async extract() {
     const values = await Promise.all(
       this.extractors.map((extractor) =>
@@ -33,8 +37,7 @@ export class ExtractorService {
       ),
     );
     const images = values.flat();
-    images.map(({ providerName, url }) => {
-      console.log(url, providerName);
-    });
+    await this.pictureService.createBulk(images);
+    console.log(`${images.length} images saved`);
   }
 }
