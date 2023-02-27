@@ -1,20 +1,10 @@
+import Picture from 'src/pictures/models/picture.model';
 import { ImageAPIClient } from './providers/providers.interfaces';
 
 export enum Provider {
   PEXELS = 'PEXELS',
   WALLHAVEN = 'WALLHAVEN',
   PIXABAY = 'PIXABAY',
-}
-
-export interface Picture<T extends {} = {}> {
-  _id: string;
-  name: string;
-  url: string;
-  tags: string[];
-  providerName: `${Provider}`;
-  providerId: string;
-  providerURL: string;
-  providerMeta?: T;
 }
 
 export interface ExtractionOptions {
