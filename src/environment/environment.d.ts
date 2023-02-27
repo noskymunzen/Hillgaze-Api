@@ -8,5 +8,6 @@ declare namespace NodeJS {
 
     WALLHAVEN_APIKEY: string;
     PEXELS_APIKEY: string;
+    PIXABAY_APIKEY: string;
   }
 }

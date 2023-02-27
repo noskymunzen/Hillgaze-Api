@@ -19,4 +19,7 @@ export class EnvironmentDTO {
 
   @IsNotEmpty()
   PEXELS_APIKEY: string;
+
+  @IsNotEmpty()
+  PIXABAY_APIKEY: string;
 }
