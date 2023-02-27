@@ -10,7 +10,7 @@ export interface WallhavenImage {
   favorites: number;
   source: string;
   purity: string;
-  category: string;
+  category: 'anime' | 'general' | 'people';
   dimension_x: number;
   dimension_y: number;
   resolution: string;
