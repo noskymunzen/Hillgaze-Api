@@ -4,6 +4,7 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PictureService } from 'src/pictures/pictures.service';
 import { ImageAPIExtractor } from './extractor.interface';
 import { PexelsExtractor } from './providers/pexels/pexels.extractor';
+import { PixabayExtractor } from './providers/pixabay/pixabay.extractor';
 import { WallhavenExtractor } from './providers/wallhaven/wallhaven.extractor';
 
 @Injectable()
@@ -20,6 +21,9 @@ export class ExtractorService {
       }),
       new PexelsExtractor(this.httpService, {
         apiKey: process.env.PEXELS_APIKEY,
+      }),
+      new PixabayExtractor(this.httpService, {
+        apiKey: process.env.PIXABAY_APIKEY,
       }),
     ];
   }
