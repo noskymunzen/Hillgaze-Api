@@ -44,7 +44,7 @@ export default class Picture<T extends {} = {}> {
   @IsString()
   providerId: string;
 
-  @Prop({ type: String, requeried: true })
+  @Prop({ type: String, required: true })
   @IsString()
   @IsNotEmpty()
   @IsUrl()
@@ -56,5 +56,8 @@ export default class Picture<T extends {} = {}> {
   providerMeta?: T;
 }
 
-export const PictureSchema = SchemaFactory.createForClass(Picture);
+const PictureSchema = SchemaFactory.createForClass(Picture);
+PictureSchema.index({ providerName: 1, providerId: 1 }, { unique: true });
+
+export { PictureSchema };
 export type PictureDocument = Picture & Document;
