@@ -4,6 +4,7 @@ import {
   ImageAPIExtractor,
   Provider,
 } from 'src/extractor/extractor.interface';
+import { range } from 'src/helpers/array.helpers';
 import Picture from 'src/pictures/models/picture.model';
 import { PixabayClient } from './pixabay.client';
 import { PixabayConfig, PixabayImage, PixabayQuery } from './pixabay.types';
@@ -29,13 +30,27 @@ export class PixabayExtractor
       per_page: 25,
       image_type: 'photo',
     };
+
     if (options.latest) {
       query.order = 'latest';
     }
 
-    const images = await this.client.get(query, {});
+    const promises = [this.client.get(query, {})];
 
-    return images.map((image) => this.convert(image));
+    const images = await Promise.all(promises);
+
+    if (options.total > 25) {
+      const times = Math.ceil(options.total / 25);
+      const pages = range(2, times);
+      pages.forEach((page) => {
+        promises.push(this.client.get({
+          ...query,
+          page,
+        }, {}));
+      });
+    }
+
+    return images.flat().map((image) => this.convert(image));
   }
   convert(image: PixabayImage): Picture {
     return {

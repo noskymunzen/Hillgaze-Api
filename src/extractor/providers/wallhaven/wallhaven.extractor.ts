@@ -4,6 +4,7 @@ import {
   ImageAPIExtractor,
   Provider,
 } from 'src/extractor/extractor.interface';
+import { range } from 'src/helpers/array.helpers';
 import Picture from 'src/pictures/models/picture.model';
 import { ImageAPIClient } from '../providers.interfaces';
 import { WallhavenClient } from './wallhaven.client';
@@ -34,8 +35,19 @@ export class WallhavenExtractor
       query.order = 'desc';
       query.sorting = 'date_added';
     }
-    const images = await this.client.get(query);
-    return images.map((image) => this.convert(image));
+    const promises = [this.client.get(query)];
+    if (options.total > 24) {
+      const times = Math.ceil(options.total / 24);
+      const pages = range(2, times);
+      pages.forEach((page) => {
+        promises.push(this.client.get({
+          ...query,
+          page,
+        }));
+      });
+    }
+    const images = await Promise.all(promises);
+    return images.flat().map((image) => this.convert(image));
   }
 
   convert(image: WallhavenImage): Picture<unknown> {
