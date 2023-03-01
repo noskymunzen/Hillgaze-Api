@@ -35,7 +35,7 @@ export class ExtractorService {
         extractor.extract({
           latest: true,
           tags: ['penguins', 'nature'],
-          total: 25,
+          total: 100,
           strategy: 'group_tags',
         }),
       ),
