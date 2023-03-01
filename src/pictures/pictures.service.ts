@@ -12,7 +12,7 @@ export class PictureService {
   ) {}
 
   async createBulk(pictures: Picture[]) {
-    return this.pictureModel.insertMany(pictures);
+    return this.pictureModel.insertMany(pictures, { ordered: false });
   }
 
   async findPictures({
