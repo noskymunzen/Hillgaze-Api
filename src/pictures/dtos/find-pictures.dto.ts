@@ -14,8 +14,6 @@ export default class FindPicturesDTO {
   search?: string;
 
   @IsOptional()
-  @IsNumber({ maxDecimalPlaces: 0 })
-  @Min(1)
   page?: number;
 
   @IsOptional()
