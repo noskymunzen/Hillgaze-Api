@@ -1,6 +1,6 @@
 # Hillgaze Api
 
-Hillgaze Api for Hillgaze App.
+Hillgaze Api provides you daily extracted images from third-party APIs from a single API.
 
 Made using:
 
@@ -19,6 +19,7 @@ Made using:
 
 ## 🗺️ Roadmap
 
+- [ ] App development
 - [ ] Extraction strategies
 - [ ] Backup images on S3
 - [ ] Save metadata by image according to provider
@@ -27,7 +28,7 @@ Made using:
 
 ## ⛽️ Extractors
 
-| Provider  | Url                            | Doc                                       |
+| Provider  | URL                            | Doc                                       |
 | --------- | ------------------------------ | ----------------------------------------- |
 | Pexels    | https://api.pexels.com/v1/     | https://www.pexels.com/api/documentation/ |
 | Pixabay   | https://pixabay.com/api/       | https://pixabay.com/api/docs/             |
@@ -35,7 +36,7 @@ Made using:
 
 ## 🔌 Endpoints
 
-| Use | Uri       | Description                     |
+| Use | URI       | Description                     |
 | --- | --------- | ------------------------------- |
 | GET | /pictures | Gets paginated list of pictures |
 
