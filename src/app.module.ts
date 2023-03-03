@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { EnvironmentModule } from './environment/environment.module';
 import { ExtractorModule } from './extractor/extractor.module';
 import { PictureModule } from './pictures/pictures.module';
@@ -21,7 +19,7 @@ import { PictureModule } from './pictures/pictures.module';
     ScheduleModule.forRoot(),
     ExtractorModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
