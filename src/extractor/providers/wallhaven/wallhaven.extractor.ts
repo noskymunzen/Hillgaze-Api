@@ -1,4 +1,5 @@
 import { HttpService } from '@nestjs/axios';
+import { getOrientationBySize } from 'src/extractor/extractor.helpers';
 import {
   ExtractionOptions,
   ImageAPIExtractor,
@@ -40,10 +41,12 @@ export class WallhavenExtractor
       const times = Math.ceil(options.total / 24);
       const pages = range(2, times);
       pages.forEach((page) => {
-        promises.push(this.client.get({
-          ...query,
-          page,
-        }));
+        promises.push(
+          this.client.get({
+            ...query,
+            page,
+          }),
+        );
       });
     }
     const images = await Promise.all(promises);
@@ -54,6 +57,7 @@ export class WallhavenExtractor
     return {
       name: image.id,
       url: image.path,
+      orientation: getOrientationBySize(image.dimension_x, image.dimension_y),
       tags: [image.category],
       providerId: image.id,
       providerURL: image.url,

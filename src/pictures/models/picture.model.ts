@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { Document, Types } from 'mongoose';
 import { Provider } from 'src/extractor/extractor.interface';
+import { PictureOrientation } from '../pictures.enums';
 
 @Schema({ timestamps: { createdAt: true } })
 export default class Picture<T extends {} = {}> {
@@ -23,11 +24,15 @@ export default class Picture<T extends {} = {}> {
   @IsString()
   name: string;
 
-  @Prop({ type: String, requeried: true })
+  @Prop({ type: String, required: true })
   @IsString()
   @IsNotEmpty()
   @IsUrl()
   url: string;
+
+  @Prop({ enum: PictureOrientation, required: true })
+  @IsEnum(PictureOrientation)
+  orientation: PictureOrientation;
 
   @Prop({ type: [String], required: false })
   @IsArray()

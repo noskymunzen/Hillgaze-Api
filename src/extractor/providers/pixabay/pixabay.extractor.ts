@@ -1,4 +1,5 @@
 import { HttpService } from '@nestjs/axios';
+import { getOrientationBySize } from 'src/extractor/extractor.helpers';
 import {
   ExtractionOptions,
   ImageAPIExtractor,
@@ -43,10 +44,15 @@ export class PixabayExtractor
       const times = Math.ceil(options.total / 25);
       const pages = range(2, times);
       pages.forEach((page) => {
-        promises.push(this.client.get({
-          ...query,
-          page,
-        }, {}));
+        promises.push(
+          this.client.get(
+            {
+              ...query,
+              page,
+            },
+            {},
+          ),
+        );
       });
     }
 
@@ -56,6 +62,7 @@ export class PixabayExtractor
     return {
       name: image.webformatURL,
       url: image.webformatURL,
+      orientation: getOrientationBySize(image.imageWidth, image.imageHeight),
       tags: image.tags.split(', '),
       providerId: image.id.toString(),
       providerURL: image.pageURL,

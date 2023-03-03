@@ -41,7 +41,7 @@ export class ExtractorService {
       ),
     );
     const images = values.flat();
-    await this.pictureService.createBulk(images);
-    console.log(`${images.length} images saved`);
+    const results = await this.pictureService.createBulk(images);
+    console.log(`${results.length} images saved`);
   }
 }
