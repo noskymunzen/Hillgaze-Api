@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { FilterQuery, Model } from 'mongoose';
+import { FilterQuery, Model, Types } from 'mongoose';
 import FindPicturesDTO from './dtos/find-pictures.dto';
 import Picture, { PictureDocument } from './models/picture.model';
 import { PictureList } from './pictures.interfaces';
@@ -12,7 +12,15 @@ export class PictureService {
   ) {}
 
   async createBulk(pictures: Picture[]) {
-    return this.pictureModel.insertMany(pictures, { ordered: false });
+    const promises = pictures.map(async (picture) => {
+      const created = new this.pictureModel({
+        ...picture,
+        _id: new Types.ObjectId(),
+      });
+      return created.save().catch(() => null);
+    });
+    const values = await Promise.all(promises);
+    return values.filter(Boolean);
   }
 
   async findPictures({
@@ -35,7 +43,7 @@ export class PictureService {
       ];
     }
     const [count, pictures] = await Promise.all([
-      this.pictureModel.countDocuments().exec(),
+      this.pictureModel.countDocuments(query).exec(),
       this.pictureModel
         .find(query)
         .limit(perPage)
@@ -48,7 +56,7 @@ export class PictureService {
       items: pictures,
       page,
       perPage,
-      total: Math.round(Math.ceil(count / perPage)),
+      total: Math.ceil(count / perPage),
     };
   }
 }
